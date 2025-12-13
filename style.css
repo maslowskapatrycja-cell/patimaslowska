@@ -1,0 +1,389 @@
+/* 
+   Importar la fuente "Will & Grace".
+   Asegúrate de tener el archivo de la fuente (ej. WILLG___.ttf) 
+   en la misma carpeta.
+*/
+@font-face {
+    font-family: 'Will & Grace';
+    src: url('WILLG___.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 
+   Importar la fuente "Styllo-Bold".
+   Asegúrate de tener el archivo de la fuente (ej. Styllo-Bold.ttf) 
+   en la misma carpeta.
+*/
+@font-face {
+    font-family: 'Styllo-Bold';
+    src: url('Styllo-Bold.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Reseteo básico y estilos generales del body */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Evita barras de scroll */
+  cursor: grab; /* Indica que algo es "agarrable" */
+  background-color: #f0f0f0; /* Color de fondo general */
+  font-family: sans-serif;
+}
+
+/* Cambia el cursor cuando se está arrastrando */
+body.dragging {
+  cursor: grabbing; /* Cambia el cursor cuando se está arrastrando */
+}
+
+body {
+    display: flex;
+}
+
+/* --- Menú Lateral --- */
+.side-menu {
+    width: 50px; /* Ancho de la franja del menú */
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    background-color: #0022ff; /* Azul intenso */
+    display: flex;
+    flex-direction: column; /* Apila los elementos verticalmente */
+    align-items: center; /* Centra los elementos horizontalmente */
+    padding-top: 20px;
+    box-sizing: border-box;
+    position: relative; /* Necesario para posicionar el pseudo-elemento */
+    z-index: 20; /* Asegura que el menú esté por encima de otros elementos */
+}
+
+/* Pseudo-elemento que actuará como el rectángulo de borde */
+.side-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid white; /* Borde blanco */
+    /* Variables CSS que controlaremos con JavaScript */
+    height: var(--bg-height);
+    opacity: var(--bg-opacity, 0);
+    /* Añadimos bordes redondeados. Puedes ajustar el valor. */
+    border-radius: 0 0 50px 50px; 
+    transition: height 0.3s ease, opacity 0.3s ease;
+}
+
+/* Contenedor del logo para ajustar el tamaño */
+.logo-container {
+    width: 100%;
+    padding: 0 5px; /* Espaciado para que la imagen no toque los bordes */
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Espacio entre el logo y los botones */
+}
+
+.logo-container img {
+    width: 100%; /* La imagen se ajusta al contenedor */
+    height: auto;
+}
+
+/* Lista de navegación */
+.side-menu ul {
+    list-style: none;   
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Empuja el siguiente elemento (social-link) hacia abajo */
+    align-items: center;
+    gap: 30px; /* Espacio entre los botones */
+    width: 100%;
+}
+
+/* --- Capa 1: Slideshow --- */
+.slideshow-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Detrás del gradiente */
+}
+
+.mySlides {
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.mySlides img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Asegura que la imagen cubra todo el espacio sin deformarse */
+}
+
+/* Animación de fundido para las imágenes */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from { opacity: .4 }
+  to { opacity: 1 }
+}
+
+
+/* --- Capa 2: Gradiente animado y máscara --- */
+.gradient-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2; /* Encima del slideshow */
+  
+  /* Gradiente animado */
+  background: linear-gradient(45deg, #d3d3d3, #d4d0d0, #d7c0bd, #e19285, #f3735f);
+  background-size: 400% 400%;
+  animation: gradientAnimation 30s ease infinite;
+
+  /* Máscara circular (controlada por JS) para crear un "agujero" */
+  /* Donde la máscara es transparente, el gradiente se vuelve transparente (revelando el slideshow) */
+  /* Donde la máscara es negra, el gradiente es visible. Se añade un borde difuso. */
+  mask-image: var(--mask-shape, radial-gradient(circle 250px at 50% 50%, transparent 230px, black 270px));
+  mask-mode: alpha; /* Asegura que la transparencia del gradiente se use para la máscara */
+  -webkit-mask-image: var(--mask-shape, radial-gradient(circle 250px at 50% 50%, transparent 230px, black 270px)); /* Prefijo para compatibilidad */
+  -webkit-mask-mode: alpha;
+}
+
+/* Animación para el fondo del gradiente */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Estilos para las estrellas/formas flotantes */
+.star {
+  position: absolute;
+  /* La animación 'float' las moverá suavemente */
+  animation-name: float;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  opacity: 0.6; /* Un poco transparentes para integrarse mejor */
+  filter: blur(1px); /* Un ligero desenfoque para suavizar los bordes */
+}
+
+/* Animación de flote para las estrellas */
+@keyframes float {
+  0% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) translateX(20px) rotate(15deg);
+  }
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+  }
+}
+
+/* --- Capa 3: Imagen de la mano --- */
+#hand-cursor {
+  position: fixed;
+  display: block; /* Visible por defecto */
+  z-index: 9; /* Se asegura de que esté por encima de todo */
+  pointer-events: auto; /* Permite que la mano reciba clics */
+  width: 300px; /* Ajusta el tamaño de la mano como prefieras */
+  height: auto;
+  /* Posición inicial en el centro, coincidiendo con la máscara */
+  top: 50%;
+  left: 50%;
+  /* Centra la imagen en el cursor y ajusta la posición para que parezca que los dedos mueven el círculo */
+  transform: translate(-50%, calc(-50% + 50%)); /* Ajustado para bajar la mano un poco */
+  /* Añade un resplandor azul detrás de la mano */
+  filter: drop-shadow(0 0 20px rgba(167, 167, 255, 0.9)) drop-shadow(0 0 50px rgba(160, 157, 255, 0.7));
+}
+
+/* Animación para el movimiento horizontal del círculo */
+@keyframes moveHorizontally {
+  from {
+    transform: translateX(-100vw) translateY(-50%); /* Empieza justo fuera de la pantalla a la izquierda */
+  }
+  to {
+    transform: translateX(100vw) translateY(-50%); /* Termina justo fuera de la pantalla a la derecha */
+  }
+}
+
+/* --- Capa 4: Círculo rojo superior --- */
+.red-circle {
+  position: fixed;
+  display: block; /* Siempre visible */
+  top: 50%; /* Centrado verticalmente */
+  left: 0; /* Lo anclamos a la izquierda para que el transform funcione correctamente */
+  transform: translateY(-50%); /* Centra el círculo en su posición (eje Y) */
+  width: 200px;
+  height: 200px;
+  background-color: rgba(255, 0, 0, 0.7); /* Rojo semitransparente */
+  border-radius: 50%;
+  z-index: 10; /* Por encima de todo, incluida la mano */
+  box-shadow: 0 0 50px 30px rgba(255, 0, 0, 0.7); /* Borde difuminado/resplandor */
+  mix-blend-mode: screen; /* Afecta a cómo se mezcla con los elementos de detrás */
+  pointer-events: none; /* Para que no interfiera con el ratón */
+  animation: moveHorizontally 20s linear infinite; /* Animación lineal y sin rebote */
+}
+
+/* Enlaces del menú (botones) */
+.side-menu a {
+    text-decoration: none;
+    color: white;
+    font-family: 'Will & Grace', sans-serif; /* Aplicamos la tipografía */
+    font-size: 24px;
+    padding: 10px;
+    left: -3px;
+    
+    /* Rotación del texto */
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+
+    /* Aseguramos que los botones estén por encima del borde */
+    position: relative;
+}
+
+/* Contenido principal para que no quede debajo del menú */
+.main-content {
+    flex-grow: 1; /* Ocupa el espacio restante */
+    height: 100vh;
+    position: relative; /* Necesario para que los elementos internos posicionados se contengan */
+    background-color: #000; /* Color de fondo mientras carga la primera imagen */
+}
+
+/* --- Título Principal --- */
+.page-title {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    font-family: 'Styllo-Bold', sans-serif;
+    font-size: 48px; /* Puedes ajustar el tamaño */
+    color: rgb(0, 38, 255);
+    z-index: 5; /* Por encima del slideshow/gradiente, debajo de la mano */
+    pointer-events: none; /* Para que no interfiera con el ratón */
+    /* Este modo de fusión crea un efecto de inversión de color interesante */
+    mix-blend-mode: normal; 
+}
+
+/* --- Enlace Social (Instagram) --- */
+.social-link {
+  width: 100%;
+  text-align: center; /* Centra el ícono */
+}
+
+.social-link img {
+  width: 60%; /* El tamaño del ícono será el 60% del ancho del menú (50px) */
+  max-width: 30px; /* Un tamaño máximo para asegurar que no se desborde */
+  height: auto;
+  opacity: 0.7; /* Leve transparencia para que se integre */
+  transition: opacity 0.3s ease;
+}
+
+.social-link a:hover img {
+  opacity: 1; /* Opacidad completa al pasar el ratón */
+}
+
+/* --- Marquee --- */
+.marquee {
+    position: fixed; /* Lo fijamos en la pantalla */
+    bottom: 0; /* Lo posicionamos en la parte inferior */
+    left: 0;
+    width: 100%; /* Ocupa todo el ancho disponible */
+    overflow: hidden; /* Oculta el contenido que se sale del contenedor */
+    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    padding: 10px 0;
+    z-index: 5; /* Misma capa que el título para que esté por encima del fondo */
+    pointer-events: none; /* Para que no interfiera con el ratón */
+}
+
+/* El contenedor del contenido que se animará */
+.marquee-content {
+    display: flex; /* Usamos flexbox para alinear los elementos hijos en una línea */
+    /* La duración de la animación (25s) controla la velocidad. Ajústala a tu gusto. */
+    animation: scroll 50s linear infinite;
+}
+
+/* El contenido que se va a repetir */
+.marquee-content span {
+   /* font-family: 'Styllo-Bold', sans-serif; /* Usamos una fuente consistente con el título */
+    font-size: 1rem;
+    font-weight: normal;
+    color: rgb(0, 38, 255); /* Mismo color azul que el título */
+    padding: 0 0.2em; /* Añade un poco de espacio entre las repeticiones */
+}
+
+/* Definición de la animación */
+@keyframes scroll {
+    0% {
+        transform: translateX(-10%);
+    }
+    100% {
+        /* Movemos el contenedor hacia la izquierda por la mitad de su ancho total.
+           Como el contenido está duplicado, se crea un bucle perfecto. */
+        transform: translateX(-100%);
+    }
+}
+ /* Estilos para el texto circular */
+    #circular-text {
+      position: fixed; /* O absolute, dependiendo del contenedor principal */
+      top: 50%;
+      left: 50%;
+      width: 600px; /* Un poco más grande que la máscara (250px radio * 2 = 500px) */
+      height: 600px;
+      pointer-events: none; /* Para que no interfiera con el click en la mano */
+      transform: translate(-50%, -50%); /* Centra el div en la posición del cursor */
+      z-index: 8; /* Asegura que esté sobre el gradiente pero debajo de la mano */
+      animation: rotate 20s linear infinite; /* Animación de rotación */
+    }
+    #circular-text svg text {
+      font-family: 'Quicksand', sans-serif;
+      font-size: 0.4vh;
+      fill: white;
+    }
+    @keyframes rotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+/* --- Estilos para la caja de texto flotante de contacto (Ajustados) --- */
+.contact-tooltip {
+  position: fixed; /* Se posiciona relativo a la ventana */
+  background-color: #d91515; /* Mismo azul que el menú lateral */
+  color: white; /* Texto en color blanco */
+  padding: 12px 20px;
+  border-radius: 30px; /* Bordes más redondeados para un look moderno */
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.5px; /* Un poco más de espacio entre letras */
+  z-index: 1001; /* Asegura que esté por encima de otros elementos */
+  
+  /* Sombra sutil para darle profundidad */
+  box-shadow: 0 4px 15px rgba(0, 34, 255, 0.4);
+
+  /* Transición suave para aparecer y desaparecer */
+  opacity: 0;
+  transform: translateX(-10px); /* Empieza ligeramente a la izquierda */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  
+  /* Por defecto no captura eventos del ratón */
+  pointer-events: none; /* Se activará con JS */
+}
+
+/* Estilo para el enlace dentro del tooltip */
+.contact-tooltip a {
+  color: inherit; /* Hereda el color blanco del padre */
+  text-decoration: none; /* Quita el subrayado */
+  display: block; /* Asegura que el enlace ocupe todo el espacio del tooltip */
+}
