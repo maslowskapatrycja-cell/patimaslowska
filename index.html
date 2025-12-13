@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<!-- 
+                    _
+                  _(_)_                          wWWWw   _
+      @@@@       (_)@(_)   vVVVv     _     @@@@  (___) _(_)_
+     @@()@@ wWWWw  (_)\    (___)   _(_)_  @@()@@   Y  (_)@(_)
+      @@@@  (___)     `|/    Y    (_)@(_)  @@@@   \|/   (_)\
+       /      Y       \|    \|/    /(_)    \|      |/      |
+    \ |     \ |/       | / \ | /  \|/       |/    \|      \|/
+    \\|//   \\|///  \\\|//\\\|/// \|///  \\\|//  \\|//  \\\|// 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-->	
+<head>
+  <title> pati masłowska </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="description" content="pati masłowska portfolio" />
+  <meta property="og:title" content="pati.masłowska" />
+  <meta property="og:image" content="lstar.jpg" />
+  <link rel="shortcut icon" href="lstar.jpg">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+  
+ 
+
+  <!-- Menú lateral -->
+  <nav class="side-menu">
+      <div class="logo-container">
+          <img src="m-star.png" alt="M Star Logo">
+      </div>
+      <ul>
+          <li><a href="index.html">home</a></li>
+          <li><a href="works.html">works</a></li>
+          <li><a href="bio.html">bio</a></li>
+          <li id="contact-btn"><a href="#" data-work="contact">contact</a></li>
+      </ul>
+      <div class="social-link">
+        <a href="https://www.instagram.com/patry_mska/" target="_blank" rel="noopener noreferrer">
+            <img src="ins.png" alt="Instagram">
+        </a>
+      </div>
+  </nav>
+
+  <!-- Contenido principal de la página -->
+  <main class="main-content">
+    <!-- Título principal -->
+    <h1 class="page-title">pati masłowska</h1>
+
+    <!-- Capa 1: Slideshow de fondo -->
+    <div class="slideshow-container">
+      <div class="mySlides fade">
+        <img src="img1.jpeg" alt="Imagen 1 del slideshow">
+      </div>
+      <div class="mySlides fade">
+        <img src="img2.jpg" alt="Imagen 2 del slideshow">
+      </div>
+      <div class="mySlides fade">
+        <img src="img3.jpeg" alt="Imagen 3 del slideshow">
+      </div>
+      <div class="mySlides fade">
+        <img src="img4.jpeg" alt="Imagen 4 del slideshow">
+      </div>
+      <div class="mySlides fade">
+        <img src="img5.jpeg" alt="Imagen 5 del slideshow">
+      </div>
+      <div class="mySlides fade">
+        <img src="img6.jpeg" alt="Imagen 6 del slideshow">
+      </div>
+       <div class="mySlides fade">
+        <img src="img7.jpeg" alt="Imagen 6 del slideshow">
+      </div>
+      <div class="mySlides fade">
+        <img src="img8.jpg" alt="Imagen 6 del slideshow">
+      </div>
+    </div>
+
+    <!-- Capa 2: Gradiente animado con máscara circular -->
+    <div class="gradient-overlay">  
+       <!--Estrellas/Formas flotantes 
+      <img src="estrellas-11.png" class="star" style="width: 1000px;">
+      <img src="estrellas-12.png" class="star" style="width: 1000px;">
+      <img src="estrellas-13.png" class="star" style="width: 1000px;">--->
+    </div>
+
+    <!-- Capa de Texto Circular -->
+    <div id="circular-text">
+      <svg viewBox="0 0 100 100">
+        <!-- Definimos un path circular invisible -->
+        <path id="text-path" d="M 50,50 m -45,0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0" fill="none"/>
+        <!-- El texto se alinea con el path -->
+        <text>
+          <textPath href="#text-path">uncharted realities leak through the cracks of what we think we know</textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- Capa 3: Imagen de la mano que sigue al cursor -->
+    <img src="mano-Pati2.png" id="hand-cursor" alt="Mano que arrastra la máscara">
+
+    <!-- Capa 4: Círculo rojo -->
+    <div id="red-circle" class="red-circle"></div>
+
+    <!-- Marquee -->
+    <div class="marquee">
+        <div class="marquee-content">
+            <span> astrology / embodied imagination / sonic ecologies / performance art / astrology / embodied imagination / sonic ecologies / performance art / astrology / embodied imagination / sonic ecologies / performance art / astrology / embodied imagination / sonic ecologies / performance art /</span>
+            <span> astrology / embodied imagination / sonic ecologies / performance art / astrology / embodied imagination / sonic ecologies / performance art / astrology / embodied imagination / sonic ecologies / performance art / astrology / embodied imagination / sonic ecologies / performance art / </span>
+        </div>
+    </div>
+
+    <!-- Caja de texto flotante para el contacto -->
+    <div id="contact-tooltip" class="contact-tooltip"><a href="mailto:maslowska.patrycja@gmail.com">maslowska.patrycja@gmail.com</a></div>
+
+
+
+  <script>
+    // --- Script para el Slideshow --- (se ejecuta al cargar el script)
+    let slideIndex = 0;
+    showSlides();
+
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1
+      }
+      slides[slideIndex - 1].style.display = "block";
+      setTimeout(showSlides, 5000); // Cambia la imagen cada 5 segundos
+    }
+
+    // --- Script para la máscara circular arrastrable ---
+    const gradientOverlay = document.querySelector('.gradient-overlay');
+    const handCursor = document.getElementById('hand-cursor');
+    const circularText = document.getElementById('circular-text');
+    let isDragging = false; // Estado para controlar si se está arrastrando
+
+    function updateMask(e) {
+      // Si no se está arrastrando, no hacemos nada.
+      if (!isDragging) return;
+
+      // Previene comportamientos por defecto como seleccionar texto o hacer scroll en móviles
+      e.preventDefault();
+
+      const x = e.clientX || e.touches[0].clientX;
+      const y = e.clientY || e.touches[0].clientY;
+      const radius = 250; // Radio base del círculo. Puedes ajustarlo.
+      const blurAmount = 20; // Cantidad de difuminado en píxeles (ancho del borde difuso)
+      const innerRadius = Math.max(0, radius - blurAmount); // Aseguramos que no sea negativo
+      const outerRadius = radius + blurAmount;
+
+      // Actualiza la propiedad CSS --mask-shape para crear un agujero transparente con borde difuso
+      gradientOverlay.style.setProperty('--mask-shape', `radial-gradient(circle ${outerRadius}px at ${x}px ${y}px, transparent ${innerRadius}px, black ${outerRadius}px)`);
+
+      // Actualiza la posición de la mano
+      handCursor.style.left = `${x}px`;
+      handCursor.style.top = `${y}px`;
+
+      // Actualiza la posición del texto circular
+      circularText.style.left = `${x}px`;
+      circularText.style.top = `${y}px`;
+    }
+
+    // Eventos para iniciar el arrastre
+    handCursor.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      document.body.classList.add('dragging');
+      updateMask(e); // Actualiza la posición de la máscara al hacer clic
+    });
+    handCursor.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      document.body.classList.add('dragging');
+      updateMask(e); // Actualiza la posición de la máscara al tocar
+    });
+
+    // Eventos para detener el arrastre
+    document.addEventListener('mouseup', () => {
+      isDragging = false;
+      document.body.classList.remove('dragging');
+    });
+    document.addEventListener('touchend', () => {
+      isDragging = false;
+      document.body.classList.remove('dragging');
+    });
+
+    // Eventos para mover la máscara mientras se arrastra
+    document.addEventListener('mousemove', updateMask);
+    document.addEventListener('touchmove', updateMask);
+
+    // --- Script para posicionar estrellas aleatoriamente ---
+    document.addEventListener('DOMContentLoaded', () => {
+      const stars = document.querySelectorAll('.star');
+      stars.forEach(star => {
+        // Posición aleatoria en la pantalla (entre 0% y 90% para evitar que se salgan completamente)
+        const top = Math.random() * 100;
+        const left = Math.random() * 100;
+        
+        // Duración de animación aleatoria entre 20s y 40s
+        const duration = Math.random() * 20 + 20; 
+        
+        // Retraso de animación aleatorio para que no empiecen todas a la vez
+        const delay = Math.random() * -10;
+
+        star.style.top = `${top}%`;
+        star.style.left = `${left}%`;
+        star.style.animationDuration = `${duration}s`;
+        star.style.animationDelay = `${delay}s`;
+      });
+
+      // --- Script para el menú lateral ---
+      const sideMenu = document.querySelector('.side-menu');
+      const menuList = document.querySelector('.side-menu ul');
+      const menuItems = document.querySelectorAll('.side-menu li');
+      let activeItem = null; // Variable para guardar el elemento activo
+
+      // Función para inicializar el estado activo del menú
+      const initializeActiveMenu = () => {
+        // El primer elemento es "home", lo establecemos como activo por defecto en index.html
+        activeItem = menuItems[0]; 
+        updateBackground(activeItem);
+      };
+
+      // Función para actualizar la posición y tamaño del fondo
+      const updateBackground = (targetItem) => {
+          if (!targetItem) {
+              // Si no hay un elemento objetivo (como al inicio o al salir sin un activo), oculta el borde
+              sideMenu.style.setProperty('--bg-opacity', '0');
+              return;
+          }
+          // Calcula la altura desde el inicio del menú hasta el final del elemento
+          const height = sideMenu.offsetTop + targetItem.offsetTop + targetItem.offsetHeight;
+          
+          // Usamos variables CSS para aplicar el estilo al pseudo-elemento ::before
+          sideMenu.style.setProperty('--bg-height', `${height}px`);
+          sideMenu.style.setProperty('--bg-opacity', '1');
+      };
+
+      // Añadimos el listener a cada item del menú
+      menuItems.forEach(item => {
+          item.addEventListener('mouseenter', (event) => {
+            updateBackground(event.currentTarget);
+          });
+
+          item.addEventListener('click', (event) => {
+              // No marcamos 'contact' como activo para el efecto de fondo
+              if (event.currentTarget.id !== 'contact-btn') {
+                activeItem = event.currentTarget; // Guarda el elemento clickeado como activo
+              }
+          });
+      });
+
+      // Cuando el cursor sale del área del menú, mostramos el borde del elemento activo
+      menuList.addEventListener('mouseleave', () => {
+          updateBackground(activeItem);
+      });
+
+      // Llama a la función para establecer el estado inicial del menú al cargar la página
+      initializeActiveMenu();
+
+      // --- Script para la caja de texto de contacto ---
+      const contactBtn = document.getElementById('contact-btn');
+      const contactTooltip = document.getElementById('contact-tooltip');
+      let hideTooltipTimer;
+
+      contactBtn.addEventListener('mouseenter', () => {
+        clearTimeout(hideTooltipTimer); // Cancela cualquier timer de ocultación
+        const rect = contactBtn.getBoundingClientRect();
+        // Posiciona el tooltip a la derecha del botón
+        contactTooltip.style.left = `${rect.right + 15}px`; // 15px de espacio
+        contactTooltip.style.top = `${rect.top + (rect.height / 2) - (contactTooltip.offsetHeight / 2)}px`;
+        contactTooltip.style.opacity = '1';
+        contactTooltip.style.transform = 'translateX(0)';
+        contactTooltip.style.pointerEvents = 'auto'; // Permite interactuar con el tooltip
+      });
+
+      const startHideTimer = () => {
+        hideTooltipTimer = setTimeout(() => {
+          contactTooltip.style.opacity = '0';
+          contactTooltip.style.transform = 'translateX(-10px)';
+          contactTooltip.style.pointerEvents = 'none'; // Desactiva interacción cuando está oculto
+        }, 200); // Un pequeño retraso para dar tiempo a mover el cursor
+      };
+
+      // Inicia el timer para ocultar cuando el cursor sale del botón o del tooltip
+      contactBtn.addEventListener('mouseleave', startHideTimer);
+      contactTooltip.addEventListener('mouseleave', startHideTimer);
+
+      // Cancela el timer si el cursor entra en el tooltip
+      contactTooltip.addEventListener('mouseenter', () => {
+        clearTimeout(hideTooltipTimer);
+      });
+    });
+  </script>
+</body>
+</html>
