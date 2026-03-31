@@ -212,10 +212,10 @@ body {
 
 .bio-image {
     height: 100%; /* La imagen ocupa toda la altura del contenedor */
-    width: auto;
     object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
     pointer-events: none; /* Permite interacción si fuera necesario */
-
+    width: 55%; /* Ancho proporcional en escritorio */
+    min-width: 300px; /* Evita que se vea diminuta en pantallas pequeñas */
 }
 
 .bio-text {
@@ -340,4 +340,76 @@ body {
   color: inherit; /* Hereda el color blanco del padre */
   text-decoration: none; /* Quita el subrayado */
   display: block; /* Asegura que el enlace ocupe todo el espacio del tooltip */
+}
+
+/* --- Versión Celular (Responsivo) --- */
+@media (max-width: 768px) {
+  body, html {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .side-menu {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 10px 15px;
+    position: fixed;
+    top: 0;
+    justify-content: space-between;
+    z-index: 1000;
+  }
+
+  .side-menu::before { display: none; }
+
+    .side-menu ul {
+    flex-direction: row;
+    gap: 15px;
+    flex-grow: 0;
+    justify-content: center;
+  }
+
+  .side-menu a {
+    writing-mode: horizontal-tb;
+    transform: none;
+    font-size: 16px;
+    padding: 5px;
+    left: 0;
+  }
+  
+
+  .side-menu li.active a,
+  .side-menu a:active {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+
+  .logo-container { width: 40px; margin-bottom: 0; }
+  .social-link { width: auto; }
+
+  .page-title {
+    position: relative;
+    top: 80px;
+    left: 20px;
+    font-size: 32px;
+  }
+
+  .bio-container {
+    position: relative;
+    top: 90px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: auto;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+.contact-tooltip {
+    transform: translateY(-10px);
+    font-size: 13px;
+    padding: 8px 15px;
+  }
+  .bio-image { width: 100%; height: auto; }
+  .bio-text { height: auto; overflow: visible; padding-right: 0; }
 }
