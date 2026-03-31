@@ -308,7 +308,9 @@
           item.addEventListener('click', (event) => {
               // No marcamos 'contact' como activo para el efecto de fondo
               if (event.currentTarget.id !== 'contact-btn') {
+                menuItems.forEach(i => i.classList.remove('active'));
                 activeItem = event.currentTarget; // Guarda el elemento clickeado como activo
+                activeItem.classList.add('active');
               }
           });
       });
@@ -325,6 +327,7 @@
         if (link && link.getAttribute('href') === currentPage) {
           // Establece este item como el activo al cargar la página
           activeItem = item;
+          activeItem.classList.add('active');
           // Actualiza el fondo para que se muestre como activo
           updateBackground(activeItem);
         }
@@ -377,6 +380,20 @@
         // Posiciona el tooltip a la derecha del botón
         contactTooltip.style.left = `${rect.right + 15}px`; // 15px de espacio
         contactTooltip.style.top = `${rect.top + (rect.height / 2) - (contactTooltip.offsetHeight / 2)}px`;
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+          // Centrar horizontalmente debajo del botón en móvil
+          contactTooltip.style.left = `${rect.left + (rect.width / 2) - (contactTooltip.offsetWidth / 2)}px`;
+          contactTooltip.style.top = `${rect.bottom + 10}px`;
+          contactTooltip.style.transform = 'translateY(0)';
+        } else {
+          // Posición original a la derecha en escritorio
+          contactTooltip.style.left = `${rect.right + 15}px`;
+          contactTooltip.style.top = `${rect.top + (rect.height / 2) - (contactTooltip.offsetHeight / 2)}px`;
+          contactTooltip.style.transform = 'translateX(0)';
+        }
+
         contactTooltip.style.opacity = '1';
         contactTooltip.style.transform = 'translateX(0)';
         contactTooltip.style.pointerEvents = 'auto'; // Permite interactuar con el tooltip
@@ -384,8 +401,10 @@
 
       const startHideTimer = () => {
         hideTooltipTimer = setTimeout(() => {
+          const isMobile = window.innerWidth <= 768;
           contactTooltip.style.opacity = '0';
           contactTooltip.style.transform = 'translateX(-10px)';
+          contactTooltip.style.transform = isMobile ? 'translateY(-10px)' : 'translateX(-10px)';
           contactTooltip.style.pointerEvents = 'none'; // Desactiva interacción cuando está oculto
         }, 200); // Un pequeño retraso para dar tiempo a mover el cursor
       };
