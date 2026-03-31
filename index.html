@@ -149,7 +149,8 @@
 
       const x = e.clientX || e.touches[0].clientX;
       const y = e.clientY || e.touches[0].clientY;
-      const radius = 250; // Radio base del círculo. Puedes ajustarlo.
+      // Detectar si es móvil para reducir el tamaño del radio (120px vs 250px)
+      const radius = window.innerWidth <= 768 ? 120 : 250;
       const blurAmount = 20; // Cantidad de difuminado en píxeles (ancho del borde difuso)
       const innerRadius = Math.max(0, radius - blurAmount); // Aseguramos que no sea negativo
       const outerRadius = radius + blurAmount;
@@ -222,6 +223,7 @@
       const initializeActiveMenu = () => {
         // El primer elemento es "home", lo establecemos como activo por defecto en index.html
         activeItem = menuItems[0]; 
+        activeItem.classList.add('active');
         updateBackground(activeItem);
       };
 
@@ -249,7 +251,9 @@
           item.addEventListener('click', (event) => {
               // No marcamos 'contact' como activo para el efecto de fondo
               if (event.currentTarget.id !== 'contact-btn') {
+                menuItems.forEach(i => i.classList.remove('active'));
                 activeItem = event.currentTarget; // Guarda el elemento clickeado como activo
+                activeItem.classList.add('active');
               }
           });
       });
@@ -270,18 +274,29 @@
       contactBtn.addEventListener('mouseenter', () => {
         clearTimeout(hideTooltipTimer); // Cancela cualquier timer de ocultación
         const rect = contactBtn.getBoundingClientRect();
-        // Posiciona el tooltip a la derecha del botón
-        contactTooltip.style.left = `${rect.right + 15}px`; // 15px de espacio
-        contactTooltip.style.top = `${rect.top + (rect.height / 2) - (contactTooltip.offsetHeight / 2)}px`;
+        const isMobile = window.innerWidth <= 768;
+
+        if (isMobile) {
+          // Centrar horizontalmente debajo del botón en móvil
+          contactTooltip.style.left = `${rect.left + (rect.width / 2) - (contactTooltip.offsetWidth / 2)}px`;
+          contactTooltip.style.top = `${rect.bottom + 10}px`;
+          contactTooltip.style.transform = 'translateY(0)';
+        } else {
+          // Posición original a la derecha en escritorio
+          contactTooltip.style.left = `${rect.right + 15}px`;
+          contactTooltip.style.top = `${rect.top + (rect.height / 2) - (contactTooltip.offsetHeight / 2)}px`;
+          contactTooltip.style.transform = 'translateX(0)';
+        }
+
         contactTooltip.style.opacity = '1';
-        contactTooltip.style.transform = 'translateX(0)';
         contactTooltip.style.pointerEvents = 'auto'; // Permite interactuar con el tooltip
       });
 
       const startHideTimer = () => {
         hideTooltipTimer = setTimeout(() => {
+          const isMobile = window.innerWidth <= 768;
           contactTooltip.style.opacity = '0';
-          contactTooltip.style.transform = 'translateX(-10px)';
+          contactTooltip.style.transform = isMobile ? 'translateY(-10px)' : 'translateX(-10px)';
           contactTooltip.style.pointerEvents = 'none'; // Desactiva interacción cuando está oculto
         }, 200); // Un pequeño retraso para dar tiempo a mover el cursor
       };
